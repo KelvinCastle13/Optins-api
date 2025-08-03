@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  strategy: one
+  type: false
+  action: false
+  expiration: MyString
+  strike_type: MyString
+  strike_value: MyString
+
+two:
+  strategy: two
+  type: false
+  action: false
+  expiration: MyString
+  strike_type: MyString
+  strike_value: MyString
