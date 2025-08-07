@@ -12,28 +12,40 @@ class OptionLegsController < ApplicationController
   end
 
   def create
-    optionLeg = OptionLeg.create(
-      leg_type: ActiveModel::Type::Boolean.new.cast(params["leg_type"]),
-      leg_action: ActiveModel::Type::Boolean.new.cast(params["leg_action"]),
-      expiration: params["expiration"],
-      strike_type: params["strike_type"],
-      strike_value: params["strike_value"],
-      strategy_id: params["strategy_id"],
-    )
+    created_legs = []
+    errors = []
 
-    if optionLeg.persisted?
-      render json: { message: "optionLeg Created" }
+    params[:legs].each do |leg_params|
+      option_leg = OptionLeg.new(
+        leg_type: leg_params["leg_type"],
+        leg_action: leg_params["leg_action"],
+        expiration: leg_params["expiration"],
+        strike_type: leg_params["strike_type"],
+        strike_value: leg_params["strike_value"],
+        strategy_id: params["strategy_id"]
+      )
+
+    if option_leg.save
+      created_legs << option_leg
     else
-      render json: { errors: optionLeg.errors.full_messages }, status: :unprocessable_entity
+      Rails.logger.debug "❌ Failed to save OptionLeg: #{option_leg.errors.full_messages}"
+      errors << { leg: leg_params, messages: option_leg.errors.full_messages }
     end
   end
+
+  if errors.empty?
+    render json: { message: "All option legs created", legs: created_legs }, status: :created
+  else
+    render json: { message: "Some legs failed", errors: errors }, status: :unprocessable_content
+  end
+end
 
   def update
     optionLeg  = OptionLeg.find(params["id"])
 
     optionLeg.update(
-      leg_type: ActiveModel::Type::Boolean.new.cast(params["leg_type"]) || optionLeg.leg_type,
-      leg_action: ActiveModel::Type::Boolean.new.cast(params["leg_action"]) || optionLeg.leg_action,
+      leg_type: params["leg_type"] || optionLeg.leg_type,
+      leg_action: params["leg_action"] || optionLeg.leg_action,
       expiration: params["expiration"] || optionLeg.expiration,
       strike_type: params["strike_type"] || optionLeg.strike_type,
       strike_value: params["strike_value"] || optionLeg.strike_value,

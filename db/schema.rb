@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_06_212858) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_07_004539) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -23,8 +23,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_06_212858) do
 
   create_table "option_legs", force: :cascade do |t|
     t.bigint "strategy_id", null: false
-    t.boolean "leg_type"
-    t.boolean "leg_action"
+    t.string "leg_type"
+    t.string "leg_action"
     t.string "expiration"
     t.string "strike_type"
     t.string "strike_value"
