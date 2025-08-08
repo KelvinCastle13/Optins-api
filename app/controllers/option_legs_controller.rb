@@ -1,8 +1,10 @@
 class OptionLegsController < ApplicationController
   def index
-    optionLegs = OptionLeg.all
+    option_legs = OptionLeg.all.order(created_at: :desc)
 
-    render json: optionLegs
+    grouped_legs = option_legs.group_by { |leg| leg.created_at.strftime("%Y-%m-%d %H:%M:%S") }
+
+    render json: grouped_legs
   end
 
   def show
