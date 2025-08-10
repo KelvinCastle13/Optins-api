@@ -1,14 +1,14 @@
 class StrategiesController < ApplicationController
   def index
-    strategies = Strategy.includes(:option_legs).all
+    strategies = Strategy.includes(:legs).all
 
-    render json: strategies.as_json(include: :option_legs)
+    render json: strategies.as_json(include: :legs)
   end
 
   def show
-    strategy = Strategy.includes(:option_legs).find(params["id"])
+    strategy = Strategy.includes(:legs).find(params["id"])
 
-    render json: strategy.as_json(include: :option_legs)
+    render json: strategy.as_json(include: :legs)
   end
 
   def create

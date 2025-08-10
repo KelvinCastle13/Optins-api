@@ -42,3 +42,7 @@ Strategy.create!(
   image_url: "https://www.projectfinance.com/wp-content/uploads/elementor/thumbs/Long-Strangle-pnbwv7qqoiabf3wo5z7ejj4spzruy6qcm2qc1scob8.jpg",
   leg_count: 4
 )
+
+Stock.create!(name: "SPY")
+Stock.create!(name: "GOOGL")
+Stock.create!(name: "META")
