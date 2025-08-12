@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_10_203505) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_10_214156) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "legs", force: :cascade do |t|
-    t.string "type"
+    t.string "leg_type"
     t.string "side"
     t.date "expiration"
     t.integer "strike"
@@ -23,6 +23,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_10_203505) do
     t.integer "contracts"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "trade_id"
+    t.index ["trade_id"], name: "index_legs_on_trade_id"
   end
 
   create_table "stocks", force: :cascade do |t|
@@ -46,6 +48,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_10_203505) do
     t.string "profit_loss"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "strategy_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -55,4 +58,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_10_203505) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_foreign_key "legs", "trades"
 end

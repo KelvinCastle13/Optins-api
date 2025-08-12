@@ -17,7 +17,7 @@ class LegsController < ApplicationController
 
     params[:legs].each do |leg_params|
       leg = Leg.create(
-        type: params["type"],
+        leg_type: params["leg_type"],
         side: params["side"],
         expiration: params["expiration"],
         strike: params["strike"],
@@ -35,14 +35,14 @@ class LegsController < ApplicationController
   if errors.empty?
     render json: ccreated_legs, status: :created
   else
-    render json: { created: created_legs, errors: errors }, status: unprocessable_entity
+    render json: { created: created_legs, errors: errors }
   end
 end
 
   def update
     leg = Leg.find(params[:id])
     if leg.update(
-      type: params["type"] || leg.type,
+      leg_type: params["leg_type"] || leg.leg_type,
       side: params["side"] || leg.side,
       expiration: params["expiration"] || leg.expiration,
       strike: params["strike"] || leg.strike,
